@@ -1,6 +1,27 @@
 <?php 
 $page = "Events";
 include'./includes/header.php';
+
+$conn = mysqli_connect(servername, username, password, dbname);
+
+$sql = "SELECT * FROM maintable WHERE cat_id = 15 AND subcat_id = 3 ORDER BY id ASC LIMIT 3";
+$result = mysqli_query($conn, $sql);
+$count = 0;
+if(mysqli_num_rows($result)>$count){
+  while($row = mysqli_fetch_assoc($result)) {
+    $id[] = $row['id'];
+    $title[] = $row['title'];
+      $speaker[] = $row['speaker'];
+      $topic[] = $row['topic'];
+      $bible_text[] = $row['bible_text'];
+      $text[] = $row['text'];
+      $cat_id[] = $row['cat_id'];
+      $subcat_id[]	 = $row['subcat_id'];
+      $image[]	 = $row['image'];
+      $created_date[]	 = date('l j F, Y', strtotime($row['created_date']) );
+      $count++;
+  }
+}
 ?>
 <body>
 
@@ -23,23 +44,25 @@ include'./includes/header.php';
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row">
+				<?php for($a = 0; $a<$count; $a++) { ?>
 				<div class="col-md-12 event-wrap d-md-flex ftco-animate">
-					<div class="img"style="background-image: url(images/event-1.jpg);"></div>
+					<div class="img"style="background-image: url(admin/image/<?php echo $image[$a]; ?>);"></div>
 					<div class="text p-4 px-md-5 d-flex align-items-center">
 						<div class="desc">
-							<h2 class="mb-4"><a href="sermons.html">Giving Hope to Our Spiritual Needs</a></h2>
+							<h2 class="mb-4"><a href="read_more.php?id=<?php echo $id[$a]; ?>"><?php echo $title[$a]; ?></a></h2>
 							<div class="meta">
 								<p>
-									<span><i class="fa fa-calendar mr-2"></i> Monday, 8:00 Am - Tuesday, 8:00 Pm</span>
-									<span><i class="fa fa-map-marker mr-2"></i> <a href="#">Salvation Church</a></span>
-									<span><i class="fa fa-building mr-2"></i> 203 Fake St. Mountain View, San Francisco, California, USA</span>
+									<span><i class="fa fa-calendar mr-2"></i><?php echo $topic[$a]; ?></span>
+									<span><i class="fa fa-map-marker mr-2"></i> <a href="#"><?php echo $speaker[$a]; ?></a></span>
+									<span><i class="fa fa-building mr-2"></i><?php echo $bible_text[$a]; ?></span>
 								</p>
 							</div>
-							<p><a href="sermons.html" class="btn btn-primary">More Details</a></p>
+							<p><a href="read_more.php" class="btn btn-primary">More Details</a></p>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 event-wrap d-md-flex ftco-animate">
+			<?php } ?>
+				<!-- <div class="col-md-12 event-wrap d-md-flex ftco-animate">
 					<div class="img"style="background-image: url(images/event-2.jpg);"></div>
 					<div class="text p-4 px-md-5 d-flex align-items-center">
 						<div class="desc">
@@ -54,8 +77,8 @@ include'./includes/header.php';
 							<p><a href="sermons.html" class="btn btn-primary">More Details</a></p>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-12 event-wrap d-md-flex ftco-animate">
+				</div> -->
+				<!-- <div class="col-md-12 event-wrap d-md-flex ftco-animate">
 					<div class="img"style="background-image: url(images/event-3.jpg);"></div>
 					<div class="text p-4 px-md-5 d-flex align-items-center">
 						<div class="desc">
@@ -70,9 +93,9 @@ include'./includes/header.php';
 							<p><a href="sermons.html" class="btn btn-primary">More Details</a></p>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="col-md-12 event-wrap d-md-flex ftco-animate">
+				<!-- <div class="col-md-12 event-wrap d-md-flex ftco-animate">
 					<div class="img"style="background-image: url(images/event-4.jpg);"></div>
 					<div class="text p-4 px-md-5 d-flex align-items-center">
 						<div class="desc">
@@ -87,9 +110,9 @@ include'./includes/header.php';
 							<p><a href="sermons.html" class="btn btn-primary">More Details</a></p>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="col-md-12 event-wrap d-md-flex ftco-animate">
+				<!-- <div class="col-md-12 event-wrap d-md-flex ftco-animate">
 					<div class="img"style="background-image: url(images/event-5.jpg);"></div>
 					<div class="text p-4 px-md-5 d-flex align-items-center">
 						<div class="desc">
@@ -104,7 +127,8 @@ include'./includes/header.php';
 							<p><a href="sermons.html" class="btn btn-primary">More Details</a></p>
 						</div>
 					</div>
-				</div>
+				</div> -->
+
 			</div>
 		</div>
 	</section>

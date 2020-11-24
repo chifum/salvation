@@ -35,10 +35,7 @@ if(mysqli_num_rows($result0)>$count0){
 
   if(isset($_POST['upload'])) {
     $title = htmlspecialchars(trim(stripcslashes($_POST['title'])));
-    $speaker = htmlspecialchars(trim(stripcslashes($_POST['speaker'])));
-    $topic = htmlspecialchars(trim(stripcslashes($_POST['topic'])));
-    $bible_text = htmlspecialchars(trim(stripcslashes($_POST['bible_text'])));
-    //$text = htmlspecialchars(trim(stripcslashes($_POST['text'])));
+    $text = htmlspecialchars(trim(stripcslashes($_POST['text'])));
     $cat_id = htmlspecialchars(trim(stripcslashes($_POST['cat_id'])));
     $subcat_id = htmlspecialchars(trim(stripcslashes($_POST['subcat_id'])));
     $image = htmlspecialchars(trim(stripcslashes($_FILES['image']['name'])));
@@ -58,14 +55,11 @@ if(mysqli_num_rows($result0)>$count0){
     // }
 
     if(empty($title)) {$errors['title'] = "Title is required";}
-    if(empty($speaker)) {$errors['speaker'] = "Speaker is required";}
-    if(empty($topic)) {$errors['topic'] = "Topic is required";}
-    if(empty($bible_text)) {$errors['bible_text'] = "Bible text is required";}
-    //if(empty($text)) {$errors['text'] = "Message is required";}
+    if(empty($text)) {$errors['text'] = "Message is required";}
 
   // Finally, add user if there are no errors in the form
     if (count($errors) === 0) {
-      $text = "none";
+      $speaker = ""; $topic = ""; $bible_text = "";
         $sql =  "INSERT INTO maintable (title, speaker, topic, bible_text, text, cat_id, subcat_id, created_date, image) VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
         //var_dump($sql);
         $stmt = $conn->prepare($sql);
@@ -112,35 +106,28 @@ if(mysqli_num_rows($result0)>$count0){
       <div class="card-header">Upload Content</div>
       <div class="card-body">
       <?php require'../config/errors.php'; ?>
-        <form action="events.php" method="POST" enctype="multipart/form-data">
+        <form action="ministries.php" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <div class="form-row">
 
-              <div class="col-md-3">
-                <span style="padding-bottom: 2%; display: block;">Address</span>
-                <div class="form-label-group">
-                  <input type="text" id="" class="form-control" name="bible_text" value="<?php if(isset($bible_text)) { echo $bible_text ;} ?>">
-                </div>
-              </div>
-
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <span style="padding-bottom: 2%; display: block;">Title</span>
                 <div class="form-label-group">
                   <input type="text" id="" class="form-control" name="title" value="<?php if(isset($title)) { echo $title ;} ?>">
                 </div>
               </div>
 
-              <div class="col-md-3">
-                <span style="padding-bottom: 2%; display: block;">Venue</span>
+              <div class="col-md-4">
+                <span style="padding-bottom: 2%; display: block;">Message</span>
                 <div class="form-label-group">
-                  <input type="text" id="" class="form-control" name="speaker" value="<?php if(isset($speaker)) { echo $speaker ;} ?>">
+                  <input type="text" id="" class="form-control" name="text" value="<?php if(isset($text)) { echo $text ;} ?>">
                 </div>
               </div>
 
-              <div class="col-md-3">
-                <span style="padding-bottom: 2%; display: block;">Time</span>
+              <div class="col-md-4">
+                <span style="padding-bottom: 2%; display: block;">Image</span>
                 <div class="form-label-group">
-                  <input type="text" id="" class="form-control" name="topic" value="<?php if(isset($topic)) { echo $topic ;} ?>">
+                  <input type="file" name="image" class="form-control">
                 </div>
               </div>
 
@@ -159,14 +146,9 @@ if(mysqli_num_rows($result0)>$count0){
                 </div>
               </div> -->
 
-              <div class="col-md-4">
-                <span style="padding-bottom: 2%; display: block;">Image</span>
-                <div class="form-label-group">
-                  <input type="file" name="image" class="form-control">
-                </div>
-              </div>
+              
 
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <span style="padding-bottom: 2%; display: block;">Category</span>
                 <div class="form-label-group">
                 <select class="form-control" name="cat_id">
@@ -178,7 +160,7 @@ if(mysqli_num_rows($result0)>$count0){
                 </div>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <span style="padding-bottom: 2%; display: block;">Subcategory</span>
                 <div class="form-label-group">
                 <select class="form-control" name="subcat_id">
